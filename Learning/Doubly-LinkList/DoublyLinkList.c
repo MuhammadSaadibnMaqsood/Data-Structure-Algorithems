@@ -8,15 +8,25 @@ struct Node
     struct Node *prev;
 };
 
-void linkListTraversal(struct Node *ptr)
+void linkListTraversal(struct Node *head)
 {
-    while (ptr != NULL)
+    struct Node *ptr = head;
+    while (ptr->next != NULL)
     {
-        printf("Element: %d\n", ptr->data);
+        printf("\nElement: %d", ptr->data);
         ptr = ptr->next;
     }
-}
+    printf("\nElement: %d", ptr->data);
 
+    printf("\n Now reverse");
+
+    while (ptr->prev != NULL)
+    {
+        printf("\nElement: %d", ptr->data);
+        ptr = ptr->prev;
+    }
+    printf("\nElement: %d", ptr->data);
+}
 
 int main(int argc, char const *argv[])
 {
@@ -34,11 +44,13 @@ int main(int argc, char const *argv[])
 
     second->data = 7;
     second->next = third;
+    second->prev = head;
 
     third->data = 10;
     third->next = NULL;
+    third->prev = second;
 
     linkListTraversal(head);
 
-       return 0;
+    return 0;
 }
