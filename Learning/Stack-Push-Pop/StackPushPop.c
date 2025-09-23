@@ -51,7 +51,17 @@ int pop(struct Stack *ptr)
         return el;
     }
 }
+void stackTraversal(struct Stack *ptr)
+{
 
+    int j = 0;
+    while (j <= ptr->top)
+        
+    {
+        printf("\nElement: %d", ptr->arr[j]);
+        j++;
+    }
+}
 int main(int argc, char const *argv[])
 {
     struct Stack *s = (struct Stack *)malloc(sizeof(struct Stack));
@@ -72,6 +82,9 @@ int main(int argc, char const *argv[])
     printf("\npop element is: %d", el);
     el = pop(s);
     printf("\npop element is: %d", el);
+
+    printf("\nSTACK TRAVERSAL");
+    stackTraversal(s);
 
     return 0;
 }
