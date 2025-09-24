@@ -1,102 +1,83 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Node
-{
+struct Node {
     int data;
     struct Node *next;
 };
 
-void LinkListTraversal(struct Node *head)
-{
-    struct Node *ptr = head;
+struct Stack {
+    struct Node *top;
+    int size;       // total capacity
+    int used;       // current elements
+};
 
-    while (ptr != NULL)
-    {
-        printf("\nElement in Linked List: %d", ptr->data);
+void LinkListTraversal(struct Node *head) {
+    struct Node *ptr = head;
+    while (ptr != NULL) {
+        printf(" %d ->", ptr->data);
         ptr = ptr->next;
     }
+    printf(" NULL\n");
 }
 
-int isFull(int stackSize, int stackUsed)
-{
-    if (stackSize > stackUsed)
-    {
-        printf("\nSTACK IS NOT FULL");
-        return 0;
+int isFull(struct Stack *s) {
+    return (s->used == s->size);
+}
+
+int isEmpty(struct Stack *s) {
+    return (s->used == 0);
+}
+
+void push(struct Stack *s, int data) {
+    if (isFull(s)) {
+        printf("\nSTACK IS FULL, cannot push %d\n", data);
+        return;
     }
-    printf("\nSTACK IS FULL");
-    return 1;
-}
-
-int isEmpty(int stackSize, int stackUsed)
-{
-    if (stackUsed == 0)
-    {
-        printf("\nSTACK IS EMPTY");
-        return 0;
-    }
-    printf("\nSTACK IS NOT EMPTY");
-    return 1;
-}
-
-struct Node *push(struct Node *head, int data, int stackSize, int stackUsed)
-{
     struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
-    if (isFull(stackSize, stackUsed) == 0)
-    {
-        newNode->data = data;
-        newNode->next = head;
-        return newNode;
-    }
-}
-struct Node *pop(struct Node *head, int stackSize, int stackUsed)
-{
-    if (isEmpty(stackSize, stackUsed) == 1)
-    {
-        printf("\nPOP ELEMENT: %d", head->data);
-        return head->next;
-    }
+    newNode->data = data;
+    newNode->next = s->top;
+    s->top = newNode;
+    s->used++;
+    printf("\nPushed: %d", data);
 }
 
-int main(int argc, char const *argv[])
-{
+void pop(struct Stack *s) {
+    if (isEmpty(s)) {
+        printf("\nSTACK IS EMPTY, cannot pop\n");
+        return;
+    }
+    struct Node *temp = s->top;
+    printf("\nPopped: %d", temp->data);
+    s->top = s->top->next;
+    free(temp);
+    s->used--;
+}
 
-    struct Node *head = (struct Node *)malloc(sizeof(struct Node));
-    struct Node *second = (struct Node *)malloc(sizeof(struct Node));
-    struct Node *thrid = (struct Node *)malloc(sizeof(struct Node));
-    struct Node *fourth = (struct Node *)malloc(sizeof(struct Node));
+int main() {
+    struct Stack s;
+    s.top = NULL;
+    s.size = 6;
+    s.used = 0;
 
-    int stack_size = 6;
-    int stackUsed = 0;
+    push(&s, 1);
+    push(&s, 2);
+    push(&s, 3);
+    push(&s, 4);
 
-    head->data = 1;
-    head->next = second;
-    stackUsed++;
+    printf("\nStack elements after pushes: ");
+    LinkListTraversal(s.top);
 
-    second->data = 2;
-    second->next = thrid;
-    stackUsed++;
+    pop(&s);
+    printf("\nStack elements after pop: ");
+    LinkListTraversal(s.top);
 
-    thrid->data = 3;
-    thrid->next = fourth;
-    stackUsed++;
+    push(&s, 5);
+    push(&s, 6);
+    push(&s, 7);  // will show STACK IS FULL
 
-    fourth->data = 4;
-    fourth->next = NULL;
-    stackUsed++;
-
-    LinkListTraversal(head);
-    isEmpty(stack_size, stackUsed);
-    isFull(stack_size, stackUsed);
-    head = push(head, 5, stack_size, stackUsed);
-    stackUsed++;
-    printf("\n LINKLIST AFTER PUSH");
-    LinkListTraversal(head);
-    head = pop(head, stack_size, stackUsed);
-    stackUsed--;
-    printf("\n LINKLIST AFTER POP");
-    LinkListTraversal(head);
+    printf("\nFinal Stack: ");
+    LinkListTraversal(s.top);
 
     return 0;
 }
