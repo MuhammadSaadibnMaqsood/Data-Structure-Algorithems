@@ -8,6 +8,40 @@ struct Stack
     char *arr;
 };
 
+void push(struct Stack *stack, char data)
+{
+    stack->arr[stack->top + 1] = data;
+    stack->top++;
+}
+
+int pop(struct Stack *stack, char data)
+{
+
+    for (int i = 0; i <= stack->top; i++)
+    {
+        char c = stack->arr[stack->top];
+
+        if (c == data)
+        {
+            return 1;
+        }
+        else
+        {
+            stack->top--;
+        }
+    }
+    return 0;
+}
+
+int isEmpty(struct Stack *stack)
+{
+    if (stack->top == -1)
+    {
+        return 1;
+    }
+    return 0;
+}
+
 int matchParenthesis(char *exp)
 {
     int size = strlen(exp);
@@ -40,7 +74,7 @@ int matchParenthesis(char *exp)
 
 int main(int argc, char const *argv[])
 {
-    char *exp = "1*(3+2){]";
+    char *exp = "[1*(3+2)]";
 
     if (matchParenthesis(exp))
     {
