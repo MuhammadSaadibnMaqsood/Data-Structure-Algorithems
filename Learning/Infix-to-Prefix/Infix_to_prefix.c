@@ -2,38 +2,101 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct data
-{
-    int minus;
-    int plus;
-    int divide;
-    int mul;
-};
 struct Stack
 {
-    int top;
     int size;
-    char arr;
+    int top;
+    char *arr;
 };
 
-char covertInfixToPrefix(char exp, struct data *data)
+char topElement(struct Stack *stack)
 {
-    int sizeOfExp = strlen(exp);
-    struct Stack *stack = (char *)malloc(sizeOfExp * (sizeof(char)));
+    return stack->arr[stack->top];
 }
 
-int main(int argc, char const *argv[])
+int precedence(char ch)
 {
-    struct data *data = (int *)malloc(sizeof(int));
-    data->plus = 1;
-    data->minus = 1;
-    data->divide = 2;
-    data->mul = 2;
-    char exp = "x+y/z-k*d";
+    if (ch == '+' || ch == '-')
+    {
+        return 1;
+    }
+    else if (ch == '*' || ch == '/')
+    {
+        return 2;
+    }
+    return 0;
+}
 
-    char convertedExp = covertInfixToPrefix(exp, data);
+void push(struct Stack *stack, char el)
+{
+    stack->top++;
+    stack->arr[stack->top] = el;
+}
 
-    printf(convertedExp);
+int isEmpty(struct Stack *stack)
+{
+    return stack->top == -1;
+}
+
+char pop(struct Stack *stack)
+{
+    if (!isEmpty(stack))
+    {
+        char el = stack->arr[stack->top];
+        stack->top--;
+        return el;
+    }
+    return '\0';
+}
+
+int isOperator(char ch)
+{
+    return (ch == '+' || ch == '-' || ch == '/' || ch == '*');
+}
+
+char *infixToPostfix(char *infix)
+{
+    struct Stack *stack = (struct Stack *)malloc(sizeof(struct Stack));
+    stack->top = -1;
+    stack->size = strlen(infix);
+    stack->arr = (char *)malloc(stack->size * sizeof(char));
+
+    char *postfix = (char *)malloc((strlen(infix) + 1) * sizeof(char));
+    int i = 0, j = 0;
+
+    while (i < strlen(infix))
+    {
+        if (!isOperator(infix[i]))
+        {
+            postfix[j++] = infix[i++];
+        }
+        else
+        {
+            while (!isEmpty(stack) && precedence(infix[i]) <= precedence(topElement(stack)))
+            {
+                postfix[j++] = pop(stack);
+            }
+            push(stack, infix[i]);
+            i++;
+        }
+    }
+
+    while (!isEmpty(stack))
+    {
+        postfix[j++] = pop(stack);
+    }
+
+    postfix[j] = '\0';
+    return postfix;
+}
+
+int main()
+{
+    char *infix = "x+y-z";
+    char *postfix = infixToPostfix(infix);
+
+    printf("Infix: %s\n", infix);
+    printf("Postfix: %s\n", postfix);
 
     return 0;
 }
