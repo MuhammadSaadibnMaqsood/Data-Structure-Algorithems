@@ -12,22 +12,26 @@ void traversal(int arr[], int n)
 int partition(int arr[], int low, int high)
 {
     int pivot = arr[low];
-    int i = 0;
+    int i = low + 1;
     int j = high;
 
     do
     {
-        while (pivot > arr[i])
+        while (arr[i] <= pivot && i <= high - 1)
         {
             i++;
         }
-        while (pivot < arr[j])
+        while (arr[j] > pivot && j >= low + 1)
         {
             j--;
         }
-        int temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
+
+        if (i < j)
+        {
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
 
     } while (i < j);
 
@@ -41,7 +45,7 @@ int partition(int arr[], int low, int high)
 void QuickSort(int arr[], int low, int high)
 {
     int partitionIndex;
-    if (low > high)
+    if (low < high)
     {
         partitionIndex = partition(arr, low, high);
         QuickSort(arr, low, partitionIndex - 1);
@@ -55,7 +59,7 @@ int main()
     int n = sizeof(arr) / sizeof(arr[0]);
 
     printf("\nBefore sorting:");
-    traversal(arr, n - 1);
+    traversal(arr, n);
 
     QuickSort(arr, 0, n - 1);
 
