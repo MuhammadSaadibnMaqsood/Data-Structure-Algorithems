@@ -27,7 +27,7 @@ void CountSort(int arr[], int n)
 
     int max = maximum(arr, n);
 
-    int *count = (int *)malloc(max + 1 * sizeof(int));
+    int *count = (int *)malloc((max + 1) * sizeof(int));
 
     for (i = 0; i <= max; i++)
     {
@@ -35,7 +35,7 @@ void CountSort(int arr[], int n)
     }
     for (i = 0; i < n; i++)
     {
-        count[arr[i]] = +1;
+        count[arr[i]] += 1;
     }
     i = 0;
     j = 0;
@@ -44,7 +44,8 @@ void CountSort(int arr[], int n)
     {
         if (count[i] > 0)
         {
-            arr[j] = count[i];
+            arr[j] = i;
+            count[i]--;
             j++;
         }
         else
@@ -61,7 +62,7 @@ int main()
     printf("\nBefore sorting:");
     traversal(arr, n);
 
-    CountSort(arr, n - 1);
+    CountSort(arr, n);
 
     printf("\nAfter sorting:");
     traversal(arr, n);
