@@ -14,8 +14,8 @@ void inOrderTraversal(struct Node *root)
     if (root)
     {
         inOrderTraversal(root->left);
-        inOrderTraversal(root->right);
         printf("%d ", root->data);
+        inOrderTraversal(root->right);
     }
 }
 
