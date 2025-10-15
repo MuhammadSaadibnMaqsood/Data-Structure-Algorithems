@@ -8,14 +8,14 @@ struct Node
     struct Node *right;
 };
 
-void preOrderTraversal(struct Node *root)
+void postOrderTraversal(struct Node *root)
 {
 
     if (root)
     {
+        postOrderTraversal(root->left);
+        postOrderTraversal(root->right);
         printf("%d ", root->data);
-        preOrderTraversal(root->left);
-        preOrderTraversal(root->right);
     }
 }
 
