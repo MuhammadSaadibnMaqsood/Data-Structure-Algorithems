@@ -8,6 +8,17 @@ struct Node
     struct Node *right;
 };
 
+void preOrderTraversal(struct Node *root)
+{
+
+    if (root)
+    {
+        printf("%d ", root->data);
+        preOrderTraversal(root->left);
+        preOrderTraversal(root->right);
+    }
+}
+
 struct Node *createNode(int data)
 {
     struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
@@ -22,7 +33,7 @@ int main(int argc, char const *argv[])
 {
     // ROOT NODE
     struct Node *n1 = createNode(11);
-    
+
     // SECOND & THIRD CHILD
     struct Node *n2 = createNode(10);
     struct Node *n3 = createNode(9);
@@ -43,6 +54,11 @@ int main(int argc, char const *argv[])
 
     n3->left = n6;
     n3->right = n7;
+
+    // TRAVERSAL
+
+    printf("\n");
+    preOrderTraversal(n1);
 
     return 0;
 }
