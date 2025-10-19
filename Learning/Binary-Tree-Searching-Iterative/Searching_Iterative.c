@@ -17,27 +17,26 @@ struct Node *createNode(int data)
     return newNode;
 }
 
-struct Node *search(struct Node *root, int el)
+struct Node *searchIter(struct Node *root, int el)
 {
+    while (root != NULL)
+    {
+        if (root->data == el)
+        {
+            return root;
+        }
+        else if (el < root->data)
+        {
+            root = root->left;
+        }
+        else
+        {
+            root = root->right;
+        }
+    }
 
-    if (root == NULL)
-    {
-        return 0;
-    }
-    if (root->data == el)
-    {
-        return root;
-    }
-
-    if (el < root->data)
-    {
-       
-        return search(root->left, el);
-    }
-    else
-    {
-        return search(root->right, el);
-    }
+   
+    return NULL;
 }
 
 int main()
@@ -57,7 +56,7 @@ int main()
     n3->left = n6;
     n3->right = n7;
 
-    struct Node *searchEl = search(n1, 15);
+    struct Node *searchEl = searchIter(n1, 12);
 
     if (searchEl)
     {
