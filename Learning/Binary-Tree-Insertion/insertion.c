@@ -17,6 +17,27 @@ struct Node *createNode(int data)
     return newNode;
 }
 
+struct Node *insert(struct Node *root, int data)
+{
+    if (root == NULL)
+    {
+        return createNode(data);
+    }
+
+    if (data < root->data)
+    {
+        root->left = insert(root->left, data);
+    }
+    else if (data > root->data)
+    {
+        root->right = insert(root->right, data);
+    }
+    else
+    {
+        printf("Duplicate not allowed: %d\n", data);
+    }
+}
+
 int main()
 {
     struct Node *n1 = createNode(11);
@@ -33,4 +54,15 @@ int main()
     n2->right = n5;
     n3->left = n6;
     n3->right = n7;
+
+    struct Node * inserted = insert(n1, 14);
+
+    if (inserted)
+    {
+        printf("\nElement is inserted");
+    }
+    else
+    {
+        printf("\nNot Inserted");
+    }
 }
