@@ -8,6 +8,16 @@ struct Node
     struct Node *right;
 };
 
+void inOrderTraversal(struct Node *root)
+{
+    if (root)
+    {
+        inOrderTraversal(root->left);
+        printf("%d ", root->data);
+        inOrderTraversal(root->right);
+    }
+}
+
 struct Node *createNode(int data)
 {
     struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
@@ -17,8 +27,58 @@ struct Node *createNode(int data)
     return newNode;
 }
 
-int delete(struct Node *root, int el)
+// ✅ Do NOT free here — only return the node (used for swapping)
+struct Node *inOrderPredecessor(struct Node *root)
 {
+    root = root->left;
+    while (root->right != NULL)
+    {
+        root = root->right;
+    }
+    return root;
+}
+
+struct Node *deleteNode(struct Node *root, int el)
+{
+    if (root == NULL)
+        return NULL;
+
+    if (el < root->data)
+        root->left = deleteNode(root->left, el);
+    else if (el > root->data)
+        root->right = deleteNode(root->right, el);
+    else
+    {
+        // Case 1: No child
+        if (root->left == NULL && root->right == NULL)
+        {
+            free(root);
+            return NULL;
+        }
+        // Case 2: One child (right only)
+        else if (root->left == NULL)
+        {
+            struct Node *temp = root->right;
+            free(root);
+            return temp;
+        }
+        // Case 3: One child (left only)
+        else if (root->right == NULL)
+        {
+            struct Node *temp = root->left;
+            free(root);
+            return temp;
+        }
+        // Case 4: Two children
+        else
+        {
+            struct Node *iPre = inOrderPredecessor(root);
+            root->data = iPre->data;
+            root->left = deleteNode(root->left, iPre->data);
+        }
+    }
+
+    return root;
 }
 
 int main()
@@ -38,13 +98,11 @@ int main()
     n3->left = n6;
     n3->right = n7;
 
-    int deleted = delete(n1, 15);
-    if (deleted)
-    {
-        printf("Element Deleted");
-    }
-    else
-    {
-        printf("Element not found");
-    }
+    printf("\nBefore deletion: ");
+    inOrderTraversal(n1);
+
+    n1 = deleteNode(n1, 10);
+
+    printf("\nAfter deletion: ");
+    inOrderTraversal(n1);
 }
