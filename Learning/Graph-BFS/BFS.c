@@ -47,26 +47,39 @@ int dequeue(struct Queue *queue)
 int main()
 {
     struct Queue *queue = (struct Queue *)malloc(sizeof(struct Queue));
-    queue->size = 5;
+    queue->size = 50;
     queue->first = 0;
     queue->last = 0;
     queue->arr = (int *)malloc(queue->size * sizeof(int));
 
-    enqueue(queue, 10);
-    enqueue(queue, 20);
-    enqueue(queue, 30);
+    int visited[7] = {0, 0, 0, 0, 0, 0, 0};
+    int adj_Matrix[7][7] = {
+        {0, 1, 1, 1, 0, 0, 0},
+        {1, 0, 1, 0, 0, 0, 0},
+        {1, 1, 0, 1, 1, 0, 0},
+        {1, 0, 1, 0, 1, 0, 0},
+        {0, 0, 1, 1, 0, 1, 1},
+        {0, 0, 0, 0, 1, 0, 0},
+        {0, 0, 0, 0, 1, 0, 0},
+    };
 
-    printf("Dequeued: %d\n", dequeue(queue));
-    printf("Dequeued: %d\n", dequeue(queue));
-
-    enqueue(queue, 40);
-
-    printf("Current queue elements:\n");
-    for (int i = queue->first; i < queue->last; i++)
+    int i = 0;
+    visited[i] = 1;
+    printf("%d", i);
+    enqueue(queue, i);
+    while (!isEmpty(queue))
     {
-        printf("%d ", queue->arr[i]);
+        int node = dequeue(queue);
+        for (int j = 0; j < 7; j++)
+        {
+            if (adj_Matrix[node][j] == 1 && visited[j] == 0)
+            {
+                printf("%d ", j);
+                visited[j] = j;
+                enqueue(queue, j);
+            }
+        }
     }
-    printf("\n");
 
     return 0;
 }
