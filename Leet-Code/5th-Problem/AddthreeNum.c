@@ -29,7 +29,7 @@ int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes
             int sum = nums[i] + nums[left] + nums[right];
 
             if (sum == 0) {
-                // Store triplet
+                
                 result[*returnSize] = (int*)malloc(3 * sizeof(int));
                 result[*returnSize][0] = nums[i];
                 result[*returnSize][1] = nums[left];
@@ -37,7 +37,7 @@ int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes
                 (*returnColumnSizes)[*returnSize] = 3;
                 (*returnSize)++;
 
-                // Skip duplicates
+                
                 int lastLeft = nums[left];
                 int lastRight = nums[right];
                 while (left < right && nums[left] == lastLeft) left++;
@@ -54,6 +54,8 @@ int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes
 
     return result;
 }
+
+
 
 int main() {
     int nums[] = {-1, 0, 1, 2, -1, -4};
