@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include <string.h>
 
-// Stack for integers
+
 struct Stack {
     int size;
     int top;
