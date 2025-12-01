@@ -10,7 +10,7 @@ typedef struct {
 
 MyCircularQueue* myCircularQueueCreate(int k) {
     MyCircularQueue* cq = malloc(sizeof(MyCircularQueue));
-    cq->size = k + 1;               // +1 because one slot stays empty
+    cq->size = k + 1;              
     cq->front = 0;
     cq->rear = 0;
     cq->arr = malloc(sizeof(int) * cq->size);
