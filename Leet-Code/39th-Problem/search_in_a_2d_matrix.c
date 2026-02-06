@@ -4,7 +4,7 @@
 bool searchMatrix(int **matrix, int matrixSize, int *matrixColSize, int target)
 {
     int m = matrixSize;
-    int n = matrixColSize[0];   // number of columns
+    int n = matrixColSize[0];  
 
     int left = 0;
     int right = m * n - 1;
